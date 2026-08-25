@@ -194,10 +194,10 @@ function PromoCodeCard() {
         </div>
         <button className="promo-code-btn" onClick={copyCode}>
           <span>{PROMO_CODE}</span>
-          {copied ? <CopyCheck size={13} strokeWidth={2.5} /> : <Copy size={13} strokeWidth={2.5} />}
-        </button>
+          {copied ? <CopyCheck size={13} strokeWidth={2.5} /> : <Copy size={13} strokeWidth={2.5} />}</button>
       </div>
-      <a className="bookmaker-btn" href={BOOKMAKER_URL} target="_blank" rel="noopener noreferrer"><ExternalLink size={14} strokeWidth={2.5} />
+      <a className="bookmaker-btn" href={BOOKMAKER_URL} target="_blank" rel="noopener noreferrer">
+        <ExternalLink size={14} strokeWidth={2.5} />
         Ouvrir {BOOKMAKER_NAME}
       </a>
     </div>
@@ -333,12 +333,12 @@ Les trois pourcentages doivent totaliser 100.`;
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
       });
-      if (!response.ok) throw new Error(`Erreur serveur (${response.status})`);
       const data = await response.json();
+      if (!response.ok) throw new Error(data.error || `Erreur serveur (${response.status})`);
       const text = data.content.map((b) => b.text || "").join("").replace(/```json|```/g, "").trim();
       setPrediction(JSON.parse(text));
     } catch (e) {
-      setError("Impossible de générer le pronostic pour le moment.");
+      setError("Erreur : " + e.message);
     } finally {
       setLoading(false);
     }
@@ -595,8 +595,7 @@ export default function MatchIQ() {
         .tape { margin-bottom: 12px; }
         .tape-bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
         .tape-home { background: var(--amber); }
-        .tape-draw { background: var(--draw); }
-.tape-away { background: var(--teal); }
+        .tape-draw { background: var(--draw); }.tape-away { background: var(--teal); }
         .tape-ticks { display: flex; justify-content: space-between; }
         .tape-tick-label { display: flex; flex-direction: column; align-items: center; }
         .tape-tick-label:first-child { align-items: flex-start; }
